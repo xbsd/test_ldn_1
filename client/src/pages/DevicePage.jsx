@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import api from '../api';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
+import { handleImageError } from '../utils/productImage';
 
 export default function DevicePage() {
   const { slug } = useParams();
@@ -56,9 +57,10 @@ export default function DevicePage() {
           <div className="flex flex-col md:flex-row gap-8 items-center">
             <div className="w-64 h-48 bg-gray-50 rounded-xl flex items-center justify-center overflow-hidden border border-gray-200">
               <img
-                src={device.imageUrl || `https://picsum.photos/seed/${device.slug}/400/300`}
+                src={device.imageUrl || undefined}
                 alt={device.modelName}
                 className="max-w-full max-h-full object-contain"
+                onError={handleImageError}
               />
             </div>
             <div>

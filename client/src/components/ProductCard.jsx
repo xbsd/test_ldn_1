@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import StarRating from './StarRating';
-import { getProductImageUrl } from '../utils/productImage';
+import { getProductImageUrl, handleImageError } from '../utils/productImage';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
@@ -25,6 +25,7 @@ export default function ProductCard({ product }) {
             alt={product.name}
             className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
+            onError={handleImageError}
           />
         </div>
         {hasDiscount && (
