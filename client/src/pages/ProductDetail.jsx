@@ -6,6 +6,7 @@ import StarRating from '../components/StarRating';
 import ProductCard from '../components/ProductCard';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { addToRecentlyViewed } from '../hooks/useRecentlyViewed';
+import { getProductImageUrl } from '../utils/productImage';
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -86,11 +87,11 @@ export default function ProductDetail() {
         <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
           {/* Image */}
           <div>
-            <div className="aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200">
+            <div className="aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200 flex items-center justify-center p-6">
               <img
-                src={`https://picsum.photos/seed/pa${product.id}/800/800`}
+                src={getProductImageUrl(product, 800)}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="max-w-full max-h-full object-contain"
               />
             </div>
           </div>

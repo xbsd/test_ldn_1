@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
+import { getProductImageUrl } from '../utils/productImage';
 
 export default function Cart() {
   const { cart, updateQuantity, removeItem } = useCart();
@@ -47,11 +48,13 @@ export default function Cart() {
               return (
                 <div key={item.id} className="bg-white rounded-xl border border-gray-200 p-5 flex gap-4">
                   <Link to={`/shop/${item.product?.slug}`} className="shrink-0">
-                    <img
-                      src={`https://picsum.photos/seed/pa${item.productId}/200/200`}
-                      alt={item.product?.name}
-                      className="w-24 h-24 object-cover rounded-lg bg-gray-50"
-                    />
+                    <div className="w-24 h-24 rounded-lg bg-gray-50 flex items-center justify-center p-2">
+                      <img
+                        src={getProductImageUrl(item.product, 200)}
+                        alt={item.product?.name}
+                        className="max-w-full max-h-full object-contain"
+                      />
+                    </div>
                   </Link>
                   <div className="flex-1 min-w-0">
                     <Link to={`/shop/${item.product?.slug}`} className="font-semibold text-gray-900 hover:text-red-600 transition-colors block truncate">

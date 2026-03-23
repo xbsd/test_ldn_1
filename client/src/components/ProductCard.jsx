@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import StarRating from './StarRating';
+import { getProductImageUrl } from '../utils/productImage';
 
 export default function ProductCard({ product }) {
   const { addToCart } = useCart();
-  const imageId = product.id || Math.floor(Math.random() * 1000);
+  const imageUrl = getProductImageUrl(product, 400);
 
   const avgRating = product.reviews?.length
     ? Math.round(product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length)
@@ -18,11 +19,11 @@ export default function ProductCard({ product }) {
   return (
     <div className="group bg-white rounded-xl border border-gray-100 overflow-hidden hover:shadow-xl hover:border-gray-200 transition-all duration-300">
       <Link to={`/shop/${product.slug}`} className="block relative">
-        <div className="aspect-square bg-gray-50 overflow-hidden">
+        <div className="aspect-square bg-gray-50 overflow-hidden flex items-center justify-center p-4">
           <img
-            src={`https://picsum.photos/seed/pa${imageId}/400/400`}
+            src={imageUrl}
             alt={product.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform duration-500"
             loading="lazy"
           />
         </div>
