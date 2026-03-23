@@ -80,12 +80,12 @@ npm install
 
 ### 2. Configure environment
 
-Edit `server/.env` with your PostgreSQL connection string and Stripe test keys:
+`DATABASE_URL` should already be set from the [Installing PostgreSQL](#installing-postgresql) step above. Open `server/.env` and fill in the remaining keys:
 
 ```
-DATABASE_URL="postgresql://user:password@localhost:5432/pedalarmor"
 JWT_SECRET="change-this-to-a-random-secret"
 STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
 ```
 
 ### 3. Run database migrations
