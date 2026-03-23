@@ -16,6 +16,53 @@ Full-stack e-commerce web application selling laser-cut acrylic protective cover
 - PostgreSQL 14+
 - Stripe account (test mode keys)
 
+## Installing PostgreSQL
+
+PostgreSQL must be installed and running before you can use this application. The project does **not** include Docker or any automated database provisioning.
+
+### macOS
+
+```bash
+brew install postgresql@14
+brew services start postgresql@14
+```
+
+### Ubuntu / Debian
+
+```bash
+sudo apt update
+sudo apt install postgresql postgresql-contrib
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+```
+
+### Windows
+
+Download and run the installer from https://www.postgresql.org/download/windows/. The installer includes pgAdmin and will start the service automatically.
+
+### Create the database
+
+After PostgreSQL is running, create the `pedalarmor` database:
+
+```bash
+# Switch to the postgres user (Linux) or use your superuser
+sudo -u postgres psql
+
+# Inside the psql prompt:
+CREATE DATABASE pedalarmor;
+CREATE USER pedalarmor_user WITH ENCRYPTED PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE pedalarmor TO pedalarmor_user;
+\q
+```
+
+Then set your `DATABASE_URL` in `server/.env` to match:
+
+```
+DATABASE_URL="postgresql://pedalarmor_user:your_password@localhost:5432/pedalarmor"
+```
+
+> **Tip:** On macOS with Homebrew, the default superuser is your OS username with no password, so you can skip the `sudo -u postgres` prefix and connect directly with `psql postgres`.
+
 ## Setup
 
 ### 1. Clone and install dependencies
