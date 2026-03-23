@@ -63,7 +63,7 @@ DATABASE_URL="postgresql://pedalarmor_user:your_password@localhost:5432/pedalarm
 
 > **Tip:** On macOS with Homebrew, the default superuser is your OS username with no password, so you can skip the `sudo -u postgres` prefix and connect directly with `psql postgres`.
 
-## Setup
+## Setup (macOS / Linux)
 
 ### 1. Clone and install dependencies
 
@@ -105,7 +105,7 @@ node prisma/seed.js
 This creates:
 - 8 brands, 21 device models
 - 5 product categories
-- 50 products with 100+ variants
+- 50+ products with 100+ variants
 - 20 sample reviews
 - 2 users (admin + customer)
 
@@ -122,6 +122,113 @@ npm run dev
 ```
 
 Visit http://localhost:5173
+
+---
+
+## Setup (Windows)
+
+### 1. Install prerequisites
+
+- **Node.js 18+**: Download the Windows installer from https://nodejs.org/ (LTS recommended). The installer adds `node` and `npm` to your PATH automatically.
+- **Git**: Download from https://git-scm.com/download/win. During installation, select "Use Git from the Windows Command Prompt".
+- **PostgreSQL 14+**: Download the Windows installer from https://www.postgresql.org/download/windows/. During installation:
+  - Remember the password you set for the `postgres` superuser.
+  - Keep the default port (5432).
+  - The installer will start the PostgreSQL service automatically.
+
+### 2. Create the database
+
+Open **pgAdmin** (installed with PostgreSQL) or use the **SQL Shell (psql)** from the Start menu:
+
+```sql
+-- In psql, connect as the postgres superuser:
+psql -U postgres
+
+-- Then run:
+CREATE DATABASE pedalarmor;
+CREATE USER pedalarmor_user WITH ENCRYPTED PASSWORD 'your_password';
+GRANT ALL PRIVILEGES ON DATABASE pedalarmor TO pedalarmor_user;
+\q
+```
+
+Alternatively, in **PowerShell** or **Command Prompt**:
+
+```powershell
+& "C:\Program Files\PostgreSQL\14\bin\psql.exe" -U postgres -c "CREATE DATABASE pedalarmor;"
+& "C:\Program Files\PostgreSQL\14\bin\psql.exe" -U postgres -c "CREATE USER pedalarmor_user WITH ENCRYPTED PASSWORD 'your_password';"
+& "C:\Program Files\PostgreSQL\14\bin\psql.exe" -U postgres -c "GRANT ALL PRIVILEGES ON DATABASE pedalarmor TO pedalarmor_user;"
+```
+
+> **Note:** Adjust the PostgreSQL path if you installed a different version (e.g., `PostgreSQL\16`).
+
+### 3. Clone and install
+
+Open **PowerShell** or **Command Prompt**:
+
+```powershell
+git clone <repository-url>
+cd test_ldn_1
+
+# Install server dependencies
+cd server
+copy .env.example .env
+npm install
+
+# Install client dependencies
+cd ..\client
+npm install
+```
+
+### 4. Configure environment
+
+Edit `server\.env` in any text editor (Notepad, VS Code, etc.):
+
+```
+DATABASE_URL="postgresql://pedalarmor_user:your_password@localhost:5432/pedalarmor"
+JWT_SECRET="change-this-to-a-random-secret"
+STRIPE_SECRET_KEY="sk_test_..."
+STRIPE_WEBHOOK_SECRET="whsec_..."
+PORT=3001
+CLIENT_URL="http://localhost:5173"
+```
+
+### 5. Run database migrations and seed
+
+```powershell
+cd server
+npx prisma migrate dev --name init
+node prisma\seed.js
+```
+
+### 6. Start development servers
+
+Open **two separate terminal windows**:
+
+```powershell
+# Terminal 1 — API server (port 3001)
+cd server
+npm run dev
+
+# Terminal 2 — React client (port 5173)
+cd client
+npm run dev
+```
+
+Visit http://localhost:5173
+
+### Windows troubleshooting
+
+- **Port already in use**: If port 3001 or 5173 is busy, find and kill the process:
+  ```powershell
+  netstat -ano | findstr :3001
+  taskkill /PID <pid> /F
+  ```
+- **PostgreSQL service not running**: Open Services (`services.msc`), find `postgresql-x64-14`, and start it.
+- **Prisma generate errors**: Run `npx prisma generate` in the `server` directory to regenerate the Prisma client.
+- **Long file paths**: If npm install fails with path errors, enable long paths:
+  ```powershell
+  git config --system core.longpaths true
+  ```
 
 ## Demo Accounts
 
@@ -153,9 +260,11 @@ server/
 
 client/
   src/
-    components/       # Navbar, Footer, ProductCard, StarRating
+    components/       # Navbar, Footer, ProductCard, StarRating, RecentlyViewed
     context/          # AuthContext, CartContext
-    pages/            # All page components
+    hooks/            # useRecentlyViewed
+    utils/            # productImage helper
+    pages/            # All page components (Shop, Home, ProductDetail, etc.)
       admin/          # Admin dashboard pages
     api.js            # Axios instance with auth interceptor
     App.jsx           # Route definitions
