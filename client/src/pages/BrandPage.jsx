@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import api from '../api';
 import ProductCard from '../components/ProductCard';
 import ProductSkeleton from '../components/ProductSkeleton';
+import { handleImageError } from '../utils/productImage';
 
 export default function BrandPage() {
   const { slug } = useParams();
@@ -81,9 +82,10 @@ export default function BrandPage() {
                 >
                   <div className="w-full h-24 bg-gray-50 rounded-lg mb-3 flex items-center justify-center overflow-hidden">
                     <img
-                      src={d.imageUrl || `https://picsum.photos/seed/${d.slug}/200/150`}
+                      src={d.imageUrl || undefined}
                       alt={d.modelName}
                       className="max-w-full max-h-full object-contain group-hover:scale-105 transition-transform"
+                      onError={handleImageError}
                     />
                   </div>
                   <h3 className="font-semibold text-sm text-gray-900 group-hover:text-red-600 transition-colors">{d.modelName}</h3>

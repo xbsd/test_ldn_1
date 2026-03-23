@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
-import { getProductImageUrl } from '../utils/productImage';
+import { getProductImageUrl, handleImageError } from '../utils/productImage';
 import api from '../api';
 import toast from 'react-hot-toast';
 
@@ -114,7 +114,7 @@ export default function Checkout() {
                 {items.map(item => (
                   <div key={item.id} className="flex gap-3">
                     <div className="w-12 h-12 rounded-lg bg-gray-50 flex items-center justify-center p-1">
-                      <img src={getProductImageUrl(item.product, 80)} alt="" className="max-w-full max-h-full object-contain" />
+                      <img src={getProductImageUrl(item.product)} alt="" className="max-w-full max-h-full object-contain" onError={handleImageError} />
                     </div>
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-medium text-gray-900 truncate">{item.product?.name}</p>

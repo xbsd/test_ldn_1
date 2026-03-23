@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { getProductImageUrl } from '../utils/productImage';
+import { getProductImageUrl, handleImageError } from '../utils/productImage';
 
 export default function Cart() {
   const { cart, updateQuantity, removeItem } = useCart();
@@ -50,9 +50,10 @@ export default function Cart() {
                   <Link to={`/shop/${item.product?.slug}`} className="shrink-0">
                     <div className="w-24 h-24 rounded-lg bg-gray-50 flex items-center justify-center p-2">
                       <img
-                        src={getProductImageUrl(item.product, 200)}
+                        src={getProductImageUrl(item.product)}
                         alt={item.product?.name}
                         className="max-w-full max-h-full object-contain"
+                        onError={handleImageError}
                       />
                     </div>
                   </Link>

@@ -6,7 +6,7 @@ import StarRating from '../components/StarRating';
 import ProductCard from '../components/ProductCard';
 import RecentlyViewed from '../components/RecentlyViewed';
 import { addToRecentlyViewed } from '../hooks/useRecentlyViewed';
-import { getProductImageUrl } from '../utils/productImage';
+import { getProductImageUrl, handleImageError } from '../utils/productImage';
 
 export default function ProductDetail() {
   const { slug } = useParams();
@@ -89,9 +89,10 @@ export default function ProductDetail() {
           <div>
             <div className="aspect-square bg-gray-50 rounded-xl overflow-hidden border border-gray-200 flex items-center justify-center p-6">
               <img
-                src={getProductImageUrl(product, 800)}
+                src={getProductImageUrl(product)}
                 alt={product.name}
                 className="max-w-full max-h-full object-contain"
+                onError={handleImageError}
               />
             </div>
           </div>
