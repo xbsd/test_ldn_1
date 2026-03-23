@@ -5,7 +5,7 @@ export default function StarRating({ rating, size = 'sm' }) {
       {[1, 2, 3, 4, 5].map((star) => (
         <svg
           key={star}
-          className={`${sizeClass} ${star <= rating ? 'text-yellow-400' : 'text-gray-600'}`}
+          className={`${sizeClass} ${star <= rating ? 'text-amber-400' : 'text-gray-200'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
         >

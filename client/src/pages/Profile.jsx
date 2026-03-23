@@ -30,15 +30,29 @@ export default function Profile() {
 
   return (
     <div>
-      <h2 className="text-xl font-semibold mb-4">Profile Settings</h2>
-      <form onSubmit={handleSubmit} className="card p-6 space-y-4 max-w-md">
-        <div className="grid grid-cols-2 gap-4">
-          <input type="text" placeholder="First Name" value={form.firstName} onChange={(e) => setForm({...form, firstName: e.target.value})} className="input-field" />
-          <input type="text" placeholder="Last Name" value={form.lastName} onChange={(e) => setForm({...form, lastName: e.target.value})} className="input-field" />
+      <h2 className="text-xl font-bold text-gray-900 mb-6">Profile Settings</h2>
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-200 p-6 max-w-lg">
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+              <input type="text" value={form.firstName} onChange={(e) => setForm({...form, firstName: e.target.value})} className="input-field" />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+              <input type="text" value={form.lastName} onChange={(e) => setForm({...form, lastName: e.target.value})} className="input-field" />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input type="email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} className="input-field" />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+            <input type="password" placeholder="Leave blank to keep current" value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} className="input-field" />
+          </div>
         </div>
-        <input type="email" placeholder="Email" value={form.email} onChange={(e) => setForm({...form, email: e.target.value})} className="input-field" />
-        <input type="password" placeholder="New Password (leave blank to keep)" value={form.password} onChange={(e) => setForm({...form, password: e.target.value})} className="input-field" />
-        <button type="submit" disabled={loading} className="btn-primary disabled:opacity-50">
+        <button type="submit" disabled={loading} className="btn-primary mt-6 disabled:opacity-50">
           {loading ? 'Saving...' : 'Save Changes'}
         </button>
       </form>
