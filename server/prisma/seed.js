@@ -7,14 +7,14 @@ async function main() {
 
   // --- BRANDS ---
   const brands = await Promise.all([
-    prisma.brand.create({ data: { name: 'Line 6', slug: 'line-6', logoUrl: 'https://picsum.photos/seed/line6/200/80', websiteUrl: 'https://line6.com' } }),
-    prisma.brand.create({ data: { name: 'Neural DSP', slug: 'neural-dsp', logoUrl: 'https://picsum.photos/seed/neuraldsp/200/80', websiteUrl: 'https://neuraldsp.com' } }),
-    prisma.brand.create({ data: { name: 'Fractal Audio', slug: 'fractal-audio', logoUrl: 'https://picsum.photos/seed/fractal/200/80', websiteUrl: 'https://fractalaudio.com' } }),
-    prisma.brand.create({ data: { name: 'Kemper', slug: 'kemper', logoUrl: 'https://picsum.photos/seed/kemper/200/80', websiteUrl: 'https://kemper-amps.com' } }),
-    prisma.brand.create({ data: { name: 'Boss', slug: 'boss', logoUrl: 'https://picsum.photos/seed/boss/200/80', websiteUrl: 'https://boss.info' } }),
-    prisma.brand.create({ data: { name: 'Fender', slug: 'fender', logoUrl: 'https://picsum.photos/seed/fender/200/80', websiteUrl: 'https://fender.com' } }),
-    prisma.brand.create({ data: { name: 'Headrush', slug: 'headrush', logoUrl: 'https://picsum.photos/seed/headrush/200/80', websiteUrl: 'https://headrushfx.com' } }),
-    prisma.brand.create({ data: { name: 'IK Multimedia', slug: 'ik-multimedia', logoUrl: 'https://picsum.photos/seed/ikmm/200/80', websiteUrl: 'https://ikmultimedia.com' } }),
+    prisma.brand.create({ data: { name: 'Line 6', slug: 'line-6', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Line6_logo.svg/200px-Line6_logo.svg.png', websiteUrl: 'https://line6.com' } }),
+    prisma.brand.create({ data: { name: 'Neural DSP', slug: 'neural-dsp', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Neural_DSP_Logo.svg/200px-Neural_DSP_Logo.svg.png', websiteUrl: 'https://neuraldsp.com' } }),
+    prisma.brand.create({ data: { name: 'Fractal Audio', slug: 'fractal-audio', logoUrl: 'https://www.fractalaudio.com/wp-content/uploads/2017/11/h1Logo.png', websiteUrl: 'https://fractalaudio.com' } }),
+    prisma.brand.create({ data: { name: 'Kemper', slug: 'kemper', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Kemper_logo.svg/200px-Kemper_logo.svg.png', websiteUrl: 'https://kemper-amps.com' } }),
+    prisma.brand.create({ data: { name: 'Boss', slug: 'boss', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5d/Boss_logo.svg/200px-Boss_logo.svg.png', websiteUrl: 'https://boss.info' } }),
+    prisma.brand.create({ data: { name: 'Fender', slug: 'fender', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Fender_guitars_logo.svg/200px-Fender_guitars_logo.svg.png', websiteUrl: 'https://fender.com' } }),
+    prisma.brand.create({ data: { name: 'Headrush', slug: 'headrush', logoUrl: 'https://www.headrushfx.com/assets/images/headrush-logo.svg', websiteUrl: 'https://headrushfx.com' } }),
+    prisma.brand.create({ data: { name: 'IK Multimedia', slug: 'ik-multimedia', logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/IK_Multimedia_logo.svg/200px-IK_Multimedia_logo.svg.png', websiteUrl: 'https://ikmultimedia.com' } }),
   ]);
 
   const [line6, neuralDsp, fractal, kemper, boss, fender, headrush, ikMm] = brands;
@@ -45,9 +45,34 @@ async function main() {
     { brandId: headrush.id, modelName: 'Flex Prime', slug: 'flex-prime', formFactor: 'floor', msrp: 999.99 },
   ];
 
+  // Real device images from manufacturer websites / retailers
+  const deviceImages = {
+    'helix-floor': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_36/366537/10567758_800.jpg',
+    'helix-lt': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_41/410901/12099977_800.jpg',
+    'hx-stomp': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_45/450218/13708161_800.jpg',
+    'hx-stomp-xl': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_51/515225/16326358_800.jpg',
+    'hx-effects': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_43/431840/12956619_800.jpg',
+    'helix-rack': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_36/366540/10911834_800.jpg',
+    'helix-stadium-xl': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_36/366537/10567758_800.jpg',
+    'quad-cortex': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_48/486992/15848351_800.jpg',
+    'nano-cortex': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_58/585378/19425051_800.jpg',
+    'axe-fx-iii': 'https://www.fractalaudio.com/wp-content/uploads/2018/03/axe-fx-iii-1920-front-white.jpg',
+    'fm9': 'https://www.fractalaudio.com/wp-content/uploads/2024/02/FM9-Mk2-Turbo-top-1920-tight.png',
+    'fm3': 'https://www.fractalaudio.com/wp-content/uploads/2023/07/FM3-Mk-II-Turbo-Front-1024.png',
+    'am4': 'https://www.fractalaudio.com/wp-content/uploads/2024/11/AM4-top-1920-tight.png',
+    'profiler-stage': 'https://www.kemper-amps.com/images/pagecontent/profiler-b/profiler-stage_wh_cropped_1200w.jpg?v5',
+    'profiler-rack-mk2': 'https://www.kemper-amps.com/files/navigation/e7/aa/3315CA9249A0.jpg?v5',
+    'gt-1000': 'https://static.roland.com/products/gt-1000/images/gt-1000_angle_gal.jpg',
+    'gt-1000core': 'https://static.roland.com/products/gt-1000core/images/gt-1000core_angle_gal.jpg',
+    'gx-100': 'https://static.roland.com/products/gx-100/images/gx-100_angle_gal.jpg',
+    'tone-master-pro': 'https://thumbs.static-thomann.de/thumb/padthumb600x600/pics/bdb/_55/558513/18895012_800.jpg',
+    'headrush-prime': 'https://www.headrushfx.com/assets/images/pdp/prime/Prime_Ortho_MediaK.png',
+    'flex-prime': 'https://www.headrushfx.com/assets/images/pdp/prime/Prime_Angle_MediaK.png',
+  };
+
   for (const d of deviceData) {
     const dev = await prisma.deviceModel.create({
-      data: { ...d, imageUrl: `https://picsum.photos/seed/${d.slug}/400/300` },
+      data: { ...d, imageUrl: deviceImages[d.slug] || `https://picsum.photos/seed/${d.slug}/400/300` },
     });
     devices[d.slug] = dev;
   }

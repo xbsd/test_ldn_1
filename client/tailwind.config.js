@@ -4,14 +4,19 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: '#1a1a2e',
-        secondary: '#16213e',
-        accent: '#0f3460',
-        highlight: '#e94560',
-        surface: '#222244',
+        primary: '#ffffff',
+        secondary: '#f8f9fa',
+        accent: '#1a1a1a',
+        highlight: '#dc2626',
+        surface: '#ffffff',
+        muted: '#6b7280',
+        border: '#e5e7eb',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
+      maxWidth: {
+        '8xl': '88rem',
       },
     },
   },
